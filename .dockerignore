@@ -1,0 +1,10 @@
+.git
+.github
+node_modules
+vendor
+var/cache
+var/logs
+data/db/*.sqlite
+web/build
+docker/php/xdebug
+**/*.log

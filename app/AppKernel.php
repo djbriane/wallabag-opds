@@ -11,6 +11,7 @@ use FOS\JsRoutingBundle\FOSJsRoutingBundle;
 use FOS\OAuthServerBundle\FOSOAuthServerBundle;
 use FOS\RestBundle\FOSRestBundle;
 use FOS\UserBundle\FOSUserBundle;
+use Gregwar\CaptchaBundle\GregwarCaptchaBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use KPhoen\RulerZBundle\KPhoenRulerZBundle;
 use Nelmio\ApiDocBundle\NelmioApiDocBundle;
@@ -34,6 +35,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
+use Wallabag\DependencyInjection\Compiler\ArticleReportingUrlPass;
 use Wallabag\Import\ImportCompilerPass;
 
 class AppKernel extends Kernel
@@ -49,6 +51,7 @@ class AppKernel extends Kernel
             new SensioFrameworkExtraBundle(),
             new FOSRestBundle(),
             new FOSUserBundle(),
+            new GregwarCaptchaBundle(),
             new JMSSerializerBundle(),
             new NelmioApiDocBundle(),
             new NelmioCorsBundle(),
@@ -125,6 +128,7 @@ class AppKernel extends Kernel
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ImportCompilerPass());
+        $container->addCompilerPass(new ArticleReportingUrlPass());
     }
 
     private function triggerLegacyParametersDeprecationIfNeeded(): void

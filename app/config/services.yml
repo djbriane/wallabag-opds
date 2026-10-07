@@ -5,6 +5,7 @@ imports:
 
 parameters:
     spiriit_form_filter.get_filter.doctrine_orm.class: Wallabag\Event\Subscriber\CustomDoctrineORMSubscriber
+    env(WALLABAG_LOG_LEVEL): error
     env(WALLABAG_SITE_CONFIG_FOLDERS): ''
     wallabag.site_config_folders: '%env(csv:WALLABAG_SITE_CONFIG_FOLDERS)%'
 
@@ -18,6 +19,7 @@ services:
             $debug: '%kernel.debug%'
             $environment: '%kernel.environment%'
             $defaultLocale: '%env(DEFAULT_LOCALE)%'
+            $articleReportingUrl: '%wallabag.article_reporting_url%'
             $wallabagUrl: '%env(WALLABAG_BASE_URL)%'
             $tablePrefix: '%env(WALLABAG_TABLE_PREFIX)%'
             $encryptionKeyPath: "%wallabag.site_credentials.encryption_key_path%"
@@ -33,6 +35,7 @@ services:
             $lifeTime: '%wallabag.cache_lifetime%'
             $logoPath: 'web/img/appicon/apple-touch-icon-152.png'
             $registrationEnabled: '%env(bool:WALLABAG_REGISTRATION_ENABLED)%'
+            $captchaEnabled: '%env(bool:WALLABAG_CAPTCHA_ENABLED)%'
             $restrictedAccess: '@=service(''craue_config'').get(''restricted_access'')'
             $senderEmail: "%scheb_two_factor.email.sender_email%"
             $senderName: "%scheb_two_factor.email.sender_name%"

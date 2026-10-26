@@ -106,9 +106,15 @@ WORKDIR /var/www/wallabag
 # The composer post-install scripts run `cache:clear`, which needs the app's
 # environment variables. This source tree reads them as real env vars, so load
 # the committed .env defaults into the build shell before installing.
+#
+# Symfony Runtime's default error handler calls error_reporting(-1) on every
+# request, which overrides the ini's ~E_DEPRECATED and floods the nginx error
+# log with PHP 8.4 deprecations from vendor code. Turning it off keeps the ini
+# level; the kernel still registers its own ErrorHandler at boot.
 RUN set -ex \
  && mkdir -p data/assets data/db var/cache var/logs \
  && set -a && . ./.env && set +a \
+ && composer config extra.runtime.error_handler false --json \
  && composer install --no-dev -o --prefer-dist --no-progress --no-interaction \
  && composer clear-cache \
  && rm -rf var/cache/* var/logs/* \
